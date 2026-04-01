@@ -46,6 +46,8 @@ export default function App() {
   const [cardIndex, setCardIndex] = useState(0);
   const [isFlipped, setIsFlipped] = useState(false);
 
+  const apiKeyMissing = !process.env.GEMINI_API_KEY || process.env.GEMINI_API_KEY === 'MY_GEMINI_API_KEY';
+
   const filteredTips = PRONUNCIATION_TIPS.filter(tip => 
     tip.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
     tip.rule.toLowerCase().includes(searchQuery.toLowerCase())
@@ -143,6 +145,32 @@ export default function App() {
       </header>
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {apiKeyMissing && (
+          <motion.div 
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mb-8 p-6 bg-amber-50 border-2 border-amber-200 rounded-3xl flex flex-col sm:flex-row items-start sm:items-center gap-4 shadow-sm"
+          >
+            <div className="bg-amber-100 p-3 rounded-2xl">
+              <Sparkles className="text-amber-600 w-6 h-6" />
+            </div>
+            <div className="flex-1">
+              <h3 className="text-amber-900 font-bold">API Key Required for Audio</h3>
+              <p className="text-amber-700 text-sm">
+                To use the audio features on Vercel, you must add the <code className="bg-amber-100 px-1 rounded">GEMINI_API_KEY</code> environment variable in your Vercel project settings.
+              </p>
+            </div>
+            <a 
+              href="https://vercel.com/docs/projects/environment-variables" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="px-4 py-2 bg-amber-600 text-white rounded-xl text-sm font-bold hover:bg-amber-700 transition-colors whitespace-nowrap"
+            >
+              How to add it
+            </a>
+          </motion.div>
+        )}
+
         {activeTab === 'tips' && (
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
             {/* Sidebar Navigation */}
