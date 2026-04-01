@@ -1,0 +1,5 @@
+{
+  "name": "Pronunciation Master",
+  "description": "An interactive guide to mastering English pronunciation based on 15 essential tips.",
+  "requestFramePermissions": ["microphone"]
+}
